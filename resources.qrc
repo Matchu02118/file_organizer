@@ -1,0 +1,35 @@
+<RCC>
+  <qresource prefix="/images/">
+    <file>projectIcon.ico</file>
+    <file>ui/images/file-signature-solid-full.svg</file>
+    <file>ui/images/folder-open-solid-full.svg</file>
+    <file>ui/images/folder-solid-full.svg</file>
+    <file>ui/images/folder-tree-solid-full.svg</file>
+    <file>ui/images/gears-solid-full.svg</file>
+  </qresource>
+  <qresource prefix="button-bgs">
+    <file>ui/images/button-bgs/category8.png</file>
+    <file>ui/images/button-bgs/category8-checked.png</file>
+    <file>ui/images/button-bgs/category8-hover.png</file>
+    <file>ui/images/button-bgs/category7.png</file>
+    <file>ui/images/button-bgs/category7-hover.png</file>
+    <file>ui/images/button-bgs/category5.png</file>
+    <file>ui/images/button-bgs/category5-hover.png</file>
+    <file>ui/images/button-bgs/category6.png</file>
+    <file>ui/images/button-bgs/category6-hover.png</file>
+    <file>ui/images/button-bgs/category3.png</file>
+    <file>ui/images/button-bgs/category3-hover.png</file>
+    <file>ui/images/button-bgs/category4.png</file>
+    <file>ui/images/button-bgs/category4-hover.png</file>
+    <file>ui/images/button-bgs/category2.png</file>
+    <file>ui/images/button-bgs/category2-hover.png</file>
+    <file>ui/images/button-bgs/category1.png</file>
+    <file>ui/images/button-bgs/category1-hover.png</file>
+  </qresource>
+  <qresource prefix="mainWindow-buttons">
+    <file>ui/images/button-bgs/option2.png</file>
+    <file>ui/images/button-bgs/option2-hover.png</file>
+    <file>ui/images/button-bgs/option1.png</file>
+    <file>ui/images/button-bgs/option1-hover.png</file>
+  </qresource>
+</RCC>

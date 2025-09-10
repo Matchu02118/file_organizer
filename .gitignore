@@ -1,0 +1,44 @@
+# Bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Backup folders
+backup/
+
+# Build artifacts
+build/
+dist/
+*.spec
+*.manifest
+
+# PyInstaller logs and temp files
+*.log
+*.tmp
+
+# Virtual environments
+.env/
+.venv/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+
+# IDE/editor configs
+.vscode/
+.idea/
+
+# Test and coverage
+.pytest_cache/
+.tox/
+.coverage
+htmlcov/
+
+# Misc
+*.egg-info/
+*.egg
+*.bak
