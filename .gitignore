@@ -6,6 +6,9 @@ __pycache__/
 # Backup folders
 backup/
 
+# Test folder
+test_folder/
+
 # Build artifacts
 build/
 dist/
