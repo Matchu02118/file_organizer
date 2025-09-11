@@ -37,19 +37,14 @@ def message(parent, title, text):
     msg.setIcon(QMessageBox.Icon.Information)
 
     msg.setStyleSheet("""
-        QMessageBox {
-            background-color:white;
-            color: white;
+        QMessageBox QLabel {
+            color: #F7F9FF;
             font-weight: bold;
             font-size: 14px;
         }
-        QPushButton {
-            background-color: #555555;
-            color: white;
+        QMessageBox QPushButton, QDialogButtonBox QPushButton {
             font-weight: bold;
-        }
-        QPushButton:hover {
-            background-color: #777777;
+            padding: 6px 10px;
         }
     """)
 
@@ -62,18 +57,14 @@ def filterMessage(parent, title, text):
     msg.setIcon(QMessageBox.Icon.Information)
 
     msg.setStyleSheet("""
-        QMessageBox {
-            background-color:white;
-            color: white;
-            font-size: 10x;
+        QMessageBox QLabel {
+            color: #F7F9FF;
+            font-size: 11px;
         }
-        QPushButton {
-            background-color: #555555;
-            color: white;
+        
+        QMessageBox QPushButton, QDialogButtonBox, QPushButton {
             font-weight: bold;
-        }
-        QPushButton:hover {
-            background-color: #777777;
+            padding: 5px 9px;
         }
     """)
 
@@ -86,19 +77,15 @@ def warning(parent, title, text):
     msg.setIcon(QMessageBox.Icon.Warning)
 
     msg.setStyleSheet("""
-        QMessageBox {
-            background-color:white;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
+        QMessageBox QLabel{
+            color: #F7F9FF;
+            font-weight:bold;
+            font-size:14px;
         }
-        QPushButton {
-            background-color: #555555;
-            color: white;
-            font-weight: bold;
-        }
-        QPushButton:hover {
-            background-color: #777777;
+        
+        QMessageBox QPushButton, QDialogButtonBox, QPushButton{
+            font-weight:bold;
+            padding: 6px 10px;
         }
     """)
 
@@ -144,7 +131,7 @@ class OptionOne(QDialog):
         uic.loadUi(resource_path("ui/option1.ui"), self)
         self.setWindowTitle("General File Organizer")
         self.setWindowIcon(QIcon(resource_path("projectIcon.ico")))
-        self.filtered_formats = []
+        self.filtered_formats = set()
         
         self.dirSlct.clicked.connect(self.select_wd)
 
@@ -169,16 +156,18 @@ class OptionOne(QDialog):
         c = button_category_map[btn_name]
     
         if btn.isChecked():
-            self.filtered_formats.extend(fmtc[c])
+            self.filtered_formats.update(fmtc[c])
             message(self, f"Filter {c}", f"The organizer app will now ignore {c} type files.\n"
             f"Files that end with {fmtc[c]} are now going to be excluded.")
             
         else:
+            for ext in fmtc[c]:
+                self.filtered_formats.discard(ext)
             message(self,
             f"Include {c}",
             f"The organizer app will now include {c} type files.\n"
-            f"Files that end with {fmtc[c]} are now going to be included "
-            f"during the file organization process.")
++           f"Files that end with {fmtc[c]} are now going to be included "
++           f"during the file organization process.")
     
         if self.fmtc_8.isChecked():
             self.fmtc_8.setText("")
@@ -188,7 +177,7 @@ class OptionOne(QDialog):
     def organize(self):
         targetDir = self.dir.text().strip()
         if not targetDir:
-            message(self, "Missing Directory", "Please select a target directory before proceeding.")
+            warning(self, "Missing Directory", "Please select a target directory before proceeding.")
             return
         
         path = Path(targetDir)
@@ -203,7 +192,7 @@ class OptionOne(QDialog):
         
         outname = self.outputName.text().strip()
         if not outname:
-            outname = f"MyOrganizedFiles-{datetime.datetime.today().strftime("%m-%d-%Y")}"
+            outname = f"MyOrganizedFiles-{datetime.datetime.today().strftime('%m-%d-%Y')}"
         
         base_destination = path / outname
         base_destination.mkdir(exist_ok=True)
