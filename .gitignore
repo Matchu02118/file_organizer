@@ -9,6 +9,9 @@ backup/
 # Test folder
 test_folder/
 
+# Project icon file
+/*.ico
+
 # Build artifacts
 build/
 dist/
