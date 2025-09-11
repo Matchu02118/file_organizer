@@ -194,19 +194,11 @@ class OptionOne(QDialog):
         path = Path(targetDir)
         
         if not path.exists():
-            warning(
-                self, 
-                "Invalid Directory", 
-                f"The path '{targetDir}' does not exist."
-            )
+            warning(self, "Invalid Directory", f"The path '{targetDir}' does not exist.")
             return
 
         if not path.is_dir():
-            warning(
-                self, 
-                "Invalid Input", 
-                f"'{targetDir}' is not a directory."
-            )
+            warning(self, "Invalid Input", f"'{targetDir}' is not a directory.")
             return
         
         outname = self.outputName.text().strip()
@@ -256,11 +248,7 @@ class OptionTwo(QDialog):
         self.lname.textChanged.connect(self.previewOutput)
         
     def select_wd(self):
-        folder = QtWidgets.QFileDialog.getExistingDirectory(
-            self,
-            "Select Target Folder",
-            ""
-        )
+        folder = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Target Folder", "")
         
         if folder:
             self.dir.setText(folder)
@@ -271,6 +259,14 @@ class OptionTwo(QDialog):
             QtWidgets.QMessageBox.warning(self, "No Folder Selected", "Please select a target folder first.")
             return
         dir_path = Path(dir_text)
+        
+        if not dir_path.exists():
+            warning(self, "Invalid Directory", f"Target path {dir_path} does not exist.")
+            return
+        
+        if not dir_path.is_dir():
+            warning(self, "Not a directory", f"Target path {dir_path} is not a directory.")
+            return
 
         first_name = self.fname.text().strip()
         last_name = self.lname.text().strip()
@@ -323,7 +319,6 @@ class OptionTwo(QDialog):
         first_name = self.fname.text().strip()
         last_name = self.lname.text().strip()
 
-        # Build preview folder name
         folder_name = f"{last_name}, {first_name}"
         folder_name = folder_name.strip(", .")
         self.dirName.setText(folder_name)
