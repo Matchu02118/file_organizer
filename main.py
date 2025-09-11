@@ -1,5 +1,5 @@
 from PyQt6 import uic, QtWidgets
-from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QDialog, QMessageBox
+from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QDialog, QMessageBox, QCheckBox
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QIcon
 import sys
@@ -105,7 +105,6 @@ def resource_path(relative_path: str) -> str:
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
-    window.setWindowIcon(QIcon(resource_path("projectIcon.ico")))
     window.show()
     sys.exit(app.exec())
     
@@ -132,8 +131,10 @@ class OptionOne(QDialog):
         self.setWindowTitle("General File Organizer")
         self.setWindowIcon(QIcon(resource_path("projectIcon.ico")))
         self.filtered_formats = set()
+        self.skipMsgState = False
         
         self.dirSlct.clicked.connect(self.select_wd)
+        self.skipMsg.stateChanged.connect(self.skip_popup)
 
         for btnName in button_category_map.keys():
             getattr(self, btnName).clicked.connect(self.filter_fileFormats)
@@ -149,7 +150,13 @@ class OptionOne(QDialog):
         
         if folder:
             self.dir.setText(folder)
-    
+
+    def skip_popup(self, state):
+        if state == Qt.CheckState.Checked.value:
+            self.skipMsgState = True
+        else:
+            self.skipMsgState = False
+
     def filter_fileFormats(self):
         btn = self.sender()
         btn_name = btn.objectName()
@@ -157,17 +164,19 @@ class OptionOne(QDialog):
     
         if btn.isChecked():
             self.filtered_formats.update(fmtc[c])
-            message(self, f"Filter {c}", f"The organizer app will now ignore {c} type files.\n"
-            f"Files that end with {fmtc[c]} are now going to be excluded.")
+            if not self.skipMsgState:
+                message(self, f"Filter {c}", f"The organizer app will now ignore {c} type files.\n"
+                f"Files that end with {fmtc[c]} are now going to be excluded.")
             
         else:
             for ext in fmtc[c]:
                 self.filtered_formats.discard(ext)
-            message(self,
-            f"Include {c}",
-            f"The organizer app will now include {c} type files.\n"
-+           f"Files that end with {fmtc[c]} are now going to be included "
-+           f"during the file organization process.")
+            if not self.skipMsgState:
+                message(self,
+                f"Include {c}",
+                f"The organizer app will now include {c} type files.\n"
+                f"Files that end with {fmtc[c]} are now going to be included "
+                f"during the file organization process.")
     
         if self.fmtc_8.isChecked():
             self.fmtc_8.setText("")
@@ -193,6 +202,11 @@ class OptionOne(QDialog):
         outname = self.outputName.text().strip()
         if not outname:
             outname = f"MyOrganizedFiles-{datetime.datetime.today().strftime('%m-%d-%Y')}"
+        
+        files = [f for f in os.listdir(path) if (path / f).is_file()]
+        if not files:
+            warning(self, "No files detected", "The target directory has no files. Cancelling operation.")
+            return
         
         base_destination = path / outname
         base_destination.mkdir(exist_ok=True)

@@ -526,7 +526,7 @@ QPushButton:checked{
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>240</y>
+     <y>270</y>
      <width>181</width>
      <height>31</height>
     </rect>
@@ -554,7 +554,7 @@ QPushButton:checked{
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>270</y>
+     <y>300</y>
      <width>461</width>
      <height>31</height>
     </rect>
@@ -602,13 +602,40 @@ QPushButton:checked{
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>230</y>
+     <y>250</y>
      <width>471</width>
      <height>16</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="skipMsg">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>230</y>
+     <width>151</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Rockwell</family>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QCheckBox{
+	color:white;
+}</string>
+   </property>
+   <property name="text">
+    <string>Skip Popup Message</string>
    </property>
   </widget>
  </widget>
